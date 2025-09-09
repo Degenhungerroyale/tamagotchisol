@@ -1,3 +1,4 @@
+import Leaderboard from "./Leaderboard";
 import React, { useEffect, useState } from "react";
 import {
   Connection,
@@ -299,6 +300,13 @@ export default function TamagotchiGame() {
       <div className="mt-6">
         <WalletMultiButton />
       </div>
+            {/* Leaderboard */}
+      <Leaderboard
+        publicKey={publicKey}
+        name={name}
+        hoursSinceCare={hoursSinceCare}
+      />
+    </div>
     </div>
   );
 }
