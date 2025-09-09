@@ -18,7 +18,6 @@ const CONTRACT_ADDRESS = new PublicKey(
 );
 const connection = new Connection("https://api.mainnet-beta.solana.com");
 
-// sprites
 const sprites = {
   happy: "/pets/pet_happy.png",
   hungry: "/pets/pet_hungry.png",
@@ -29,7 +28,6 @@ const sprites = {
 };
 const skull = "/pets/warning_skull.png";
 
-// fees
 const fees = {
   adopt: 2,
   name: 1,
@@ -43,7 +41,6 @@ const fees = {
 export default function TamagotchiGame() {
   const { publicKey, sendTransaction } = useWallet();
 
-  // state
   const [adopted, setAdopted] = useState(false);
   const [name, setName] = useState("");
   const [status, setStatus] = useState("idle");
@@ -53,10 +50,8 @@ export default function TamagotchiGame() {
   const [balance, setBalance] = useState(0);
   const [hoursSinceCare, setHoursSinceCare] = useState(0);
 
-  // persistence key
   const storageKey = publicKey ? `tamagotchi-${publicKey.toBase58()}` : null;
 
-  // load persisted data
   useEffect(() => {
     if (!publicKey) return;
     const saved = localStorage.getItem(storageKey);
@@ -71,21 +66,12 @@ export default function TamagotchiGame() {
     }
   }, [publicKey]);
 
-  // persist data
   useEffect(() => {
     if (!publicKey) return;
-    const data = {
-      adopted,
-      name,
-      status,
-      mood,
-      hunger,
-      lastCare,
-    };
+    const data = { adopted, name, status, mood, hunger, lastCare };
     localStorage.setItem(storageKey, JSON.stringify(data));
   }, [adopted, name, status, mood, hunger, lastCare, publicKey]);
 
-  // hunger decay timer
   useEffect(() => {
     if (!lastCare) return;
     const checkDecay = () => {
@@ -113,7 +99,6 @@ export default function TamagotchiGame() {
     return () => clearInterval(interval);
   }, [lastCare]);
 
-  // fetch balance
   useEffect(() => {
     if (!publicKey) return;
     (async () => {
@@ -127,7 +112,6 @@ export default function TamagotchiGame() {
     })();
   }, [publicKey, status]);
 
-  // burn helper
   const burnAction = async (amount, newStatus, newMood, updateCare = true) => {
     if (!publicKey) return alert("Connect wallet first!");
     if (balance < amount) return alert("Not enough LOS balance!");
@@ -137,7 +121,7 @@ export default function TamagotchiGame() {
       ata,
       CONTRACT_ADDRESS,
       publicKey,
-      Math.floor(amount * 1e6), // assumes 6 decimals
+      Math.floor(amount * 1e6),
       [],
       TOKEN_PROGRAM_ID
     );
@@ -154,7 +138,6 @@ export default function TamagotchiGame() {
     }
   };
 
-  // adopt pet
   const adoptPet = () => {
     if (window.confirm(`Adopt your Dino for ${fees.adopt} LOS?`)) {
       burnAction(fees.adopt, "happy", "happy");
@@ -164,7 +147,6 @@ export default function TamagotchiGame() {
     }
   };
 
-  // name pet
   const namePet = () => {
     const newName = prompt("Enter a name for your Dino:");
     if (!newName) return;
@@ -174,7 +156,6 @@ export default function TamagotchiGame() {
     }
   };
 
-  // revive pet
   const revivePet = () => {
     if (window.confirm(`Revive your Dino for ${fees.revive} LOS?`)) {
       burnAction(fees.revive, "happy", "happy");
@@ -183,33 +164,31 @@ export default function TamagotchiGame() {
     }
   };
 
-  // format time
   const formatTime = (ts) => {
     if (!ts) return "Never";
     return new Date(ts).toLocaleString();
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
       {/* Tamagotchi shell */}
-      <div className="relative">
+      <div className="relative w-[320px] sm:w-[400px] md:w-[500px] mx-auto">
         <img
           src="/tamagotchi_shell.png"
           alt="Tamagotchi shell"
-          className="w-96 h-auto pixelated"
+          className="w-full h-auto pixelated"
         />
 
         {/* Gameplay screen overlay */}
-        <div className="absolute top-[25%] left-[20%] w-[60%] h-[40%] bg-black border-2 border-green-400 flex flex-col items-center justify-start text-green-400 font-mono p-2">
+        <div className="absolute top-[25%] left-[20%] w-[60%] h-[40%] 
+                        bg-black border-2 border-green-400 
+                        flex flex-col items-center justify-start 
+                        text-green-400 font-mono p-2 text-xs sm:text-sm">
           <h2 className="text-sm mb-1">
             {name ? `Dino: ${name}` : "Unnamed Dino"}
           </h2>
-          <img
-            src={sprites[mood]}
-            alt="pet"
-            className="w-16 h-16 mb-1 pixelated"
-          />
-          <p className="mb-1 text-xs">Status: {status}</p>
+          <img src={sprites[mood]} alt="pet" className="w-16 h-16 mb-1 pixelated" />
+          <p className="mb-1">Status: {status}</p>
 
           {/* Hunger meter */}
           <div className="w-full bg-gray-700 h-2 rounded mb-1">
@@ -219,23 +198,18 @@ export default function TamagotchiGame() {
             ></div>
           </div>
 
-          {/* Last care */}
-          <p className="mb-1 flex items-center gap-1 text-xs">
+          <p className="mb-1 flex items-center gap-1">
             Last Care: {formatTime(lastCare)}
             {hoursSinceCare > 20 && hoursSinceCare < 24 && (
               <img src={skull} alt="skull" className="w-3 h-3 pixelated" />
             )}
           </p>
 
-          {/* Balance */}
-          <p className="mb-2 text-xs">Balance: {balance} LOS</p>
+          <p className="mb-2">Balance: {balance} LOS</p>
 
           {/* Buttons */}
           {!adopted ? (
-            <button
-              className="bg-green-700 px-2 py-1 rounded text-xs"
-              onClick={adoptPet}
-            >
+            <button className="bg-green-700 px-2 py-1 rounded" onClick={adoptPet}>
               Adopt (2 LOS)
             </button>
           ) : (
