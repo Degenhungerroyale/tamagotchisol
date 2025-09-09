@@ -172,7 +172,7 @@ export default function TamagotchiGame() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
       {/* Tamagotchi shell */}
-      <div className="relative w-[320px] sm:w-[400px] md:w-[500px] mx-auto">
+      <div className="relative w-[300px] sm:w-[380px] md:w-[450px] lg:w-[500px] mx-auto">
         <img
           src="/tamagotchi_shell.png"
           alt="Tamagotchi shell"
@@ -180,9 +180,9 @@ export default function TamagotchiGame() {
         />
 
         {/* Gameplay screen overlay */}
-        <div className="absolute top-[25%] left-[20%] w-[60%] h-[40%] 
-                        bg-black border-2 border-green-400 
-                        flex flex-col items-center justify-start 
+        <div className="absolute top-[25%] left-[20%] w-[60%] h-[40%]
+                        bg-black border-2 border-green-400
+                        flex flex-col items-center justify-start
                         text-green-400 font-mono p-2 text-xs sm:text-sm">
           <h2 className="text-sm mb-1">
             {name ? `Dino: ${name}` : "Unnamed Dino"}
@@ -190,7 +190,6 @@ export default function TamagotchiGame() {
           <img src={sprites[mood]} alt="pet" className="w-16 h-16 mb-1 pixelated" />
           <p className="mb-1">Status: {status}</p>
 
-          {/* Hunger meter */}
           <div className="w-full bg-gray-700 h-2 rounded mb-1">
             <div
               className="bg-green-500 h-2 rounded"
@@ -207,7 +206,6 @@ export default function TamagotchiGame() {
 
           <p className="mb-2">Balance: {balance} LOS</p>
 
-          {/* Buttons */}
           {!adopted ? (
             <button className="bg-green-700 px-2 py-1 rounded" onClick={adoptPet}>
               Adopt (2 LOS)
@@ -258,12 +256,10 @@ export default function TamagotchiGame() {
         </div>
       </div>
 
-      {/* Wallet connect */}
       <div className="mt-6">
         <WalletMultiButton />
       </div>
 
-      {/* Leaderboard */}
       <Leaderboard
         publicKey={publicKey}
         name={name}
