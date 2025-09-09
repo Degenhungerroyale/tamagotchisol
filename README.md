@@ -1,0 +1,2 @@
+# tamagotchisol
+Tamagotchi Sol Game
