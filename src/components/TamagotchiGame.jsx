@@ -1,19 +1,17 @@
-import Leaderboard from "./Leaderboard";
 import React, { useEffect, useState } from "react";
 import {
   Connection,
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
-import {
-  useWallet,
-} from "@solana/wallet-adapter-react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import {
   getAssociatedTokenAddress,
   createBurnInstruction,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import Leaderboard from "./Leaderboard";
 
 const CONTRACT_ADDRESS = new PublicKey(
   "6d2Wze1KMUxQ28sFLrH9DKfgBXpUJSJYZaRbufucvBLV"
@@ -194,77 +192,74 @@ export default function TamagotchiGame() {
   return (
     <div className="flex flex-col items-center">
       {/* Tamagotchi shell */}
-      <div
-        className="bg-yellow-200 rounded-full p-6 shadow-2xl border-8 border-pink-600 relative"
-        onClick={() => {
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          } else {
-            document.documentElement.requestFullscreen();
-          }
-        }}
-      >
-        {/* Screen */}
-        <div className="bg-black border-4 border-green-400 rounded-md p-4 w-72 h-96 flex flex-col items-center justify-start text-green-400 font-mono">
-          <h2 className="text-xl mb-2">
+      <div className="relative">
+        <img
+          src="/tamagotchi_shell.png"
+          alt="Tamagotchi shell"
+          className="w-96 h-auto pixelated"
+        />
+
+        {/* Gameplay screen overlay */}
+        <div className="absolute top-[25%] left-[20%] w-[60%] h-[40%] bg-black border-2 border-green-400 flex flex-col items-center justify-start text-green-400 font-mono p-2">
+          <h2 className="text-sm mb-1">
             {name ? `Dino: ${name}` : "Unnamed Dino"}
           </h2>
           <img
             src={sprites[mood]}
             alt="pet"
-            className="w-24 h-24 mb-2 pixelated"
+            className="w-16 h-16 mb-1 pixelated"
           />
-          <p className="mb-2">Status: {status}</p>
+          <p className="mb-1 text-xs">Status: {status}</p>
 
           {/* Hunger meter */}
-          <div className="w-full bg-gray-700 h-4 rounded mb-2">
+          <div className="w-full bg-gray-700 h-2 rounded mb-1">
             <div
-              className="bg-green-500 h-4 rounded"
+              className="bg-green-500 h-2 rounded"
               style={{ width: `${hunger}%` }}
             ></div>
           </div>
 
           {/* Last care */}
-          <p className="mb-1 flex items-center gap-1">
+          <p className="mb-1 flex items-center gap-1 text-xs">
             Last Care: {formatTime(lastCare)}
             {hoursSinceCare > 20 && hoursSinceCare < 24 && (
-              <img src={skull} alt="skull" className="w-4 h-4 pixelated" />
+              <img src={skull} alt="skull" className="w-3 h-3 pixelated" />
             )}
           </p>
 
           {/* Balance */}
-          <p className="mb-2">Balance: {balance} LOS</p>
+          <p className="mb-2 text-xs">Balance: {balance} LOS</p>
 
           {/* Buttons */}
           {!adopted ? (
             <button
-              className="bg-green-700 px-3 py-1 rounded"
+              className="bg-green-700 px-2 py-1 rounded text-xs"
               onClick={adoptPet}
             >
               Adopt (2 LOS)
             </button>
           ) : (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-1 text-xs">
               <button
-                className="bg-green-700 px-2 py-1 rounded"
+                className="bg-green-700 px-1 py-1 rounded"
                 onClick={() => burnAction(fees.feed, "eating", "happy")}
               >
                 Feed (1)
               </button>
               <button
-                className="bg-green-700 px-2 py-1 rounded"
+                className="bg-green-700 px-1 py-1 rounded"
                 onClick={() => burnAction(fees.play, "playing", "happy")}
               >
                 Play (0.5)
               </button>
               <button
-                className="bg-green-700 px-2 py-1 rounded"
+                className="bg-green-700 px-1 py-1 rounded"
                 onClick={() => burnAction(fees.clean, "clean", "clean")}
               >
                 Clean (0.5)
               </button>
               <button
-                className="bg-green-700 px-2 py-1 rounded"
+                className="bg-green-700 px-1 py-1 rounded"
                 onClick={() => burnAction(fees.nap, "sleeping", "sleep")}
               >
                 Nap (0.25)
@@ -287,26 +282,19 @@ export default function TamagotchiGame() {
             </div>
           )}
         </div>
-
-        {/* toy buttons */}
-        <div className="flex justify-center gap-6 mt-6">
-          <div className="w-10 h-10 bg-pink-600 rounded-full shadow-inner"></div>
-          <div className="w-10 h-10 bg-pink-600 rounded-full shadow-inner"></div>
-          <div className="w-10 h-10 bg-pink-600 rounded-full shadow-inner"></div>
-        </div>
       </div>
 
       {/* Wallet connect */}
       <div className="mt-6">
         <WalletMultiButton />
       </div>
-            {/* Leaderboard */}
+
+      {/* Leaderboard */}
       <Leaderboard
         publicKey={publicKey}
         name={name}
         hoursSinceCare={hoursSinceCare}
       />
-    </div>
     </div>
   );
 }
