@@ -1,3 +1,7 @@
+"overrides": {
+  "uuidv4": "npm:uuid@^9.0.0"
+}
+
 {
   "name": "tamagotchisol",
   "version": "1.0.0",
