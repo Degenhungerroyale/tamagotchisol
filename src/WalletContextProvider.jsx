@@ -7,7 +7,6 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  BackpackWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -19,7 +18,6 @@ export const WalletContextProvider = ({ children }) => {
     () => [
       new PhantomWalletAdapter(),
       new SolflareWalletAdapter(),
-      new BackpackWalletAdapter(),
     ],
     []
   );
