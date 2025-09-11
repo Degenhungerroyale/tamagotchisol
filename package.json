@@ -15,10 +15,8 @@
     "@solana/web3.js": "^1.95.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
-    // 🔹 Add back any other dependencies you need here
   },
   "devDependencies": {
     "vite": "^5.4.0"
-    // 🔹 Add other devDependencies (like tailwind, eslint, etc.) if you use them
   }
 }
