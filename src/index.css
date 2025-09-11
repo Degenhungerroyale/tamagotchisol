@@ -7,18 +7,10 @@
   image-rendering: pixelated;
 }
 
-/* portrait lock */
-@media screen and (orientation: landscape) {
-  body::before {
-    content: "Rotate back to portrait to continue";
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: black;
-    color: red;
-    font-family: monospace;
-    padding: 10px;
-    z-index: 9999;
-  }
+/* Force global black background */
+html, body {
+  @apply bg-black;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
