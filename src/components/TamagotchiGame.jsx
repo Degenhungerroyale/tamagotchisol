@@ -120,7 +120,7 @@ export default function TamagotchiGame() {
   // Orientation check (mobile only)
   useEffect(() => {
     const checkOrientation = () => {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile && window.innerWidth > window.innerHeight) {
         setShowRotateMessage(true);
       } else {
@@ -198,7 +198,7 @@ export default function TamagotchiGame() {
       )}
 
       {/* Shell container */}
-      <div className="relative w-[360px] sm:w-[480px] md:w-[640px] mx-auto">
+      <div className="relative w-[400px] sm:w-[520px] md:w-[720px] mx-auto">
         {/* Tamagotchi shell image */}
         <img
           src="/tamagotchi_shell.png"
