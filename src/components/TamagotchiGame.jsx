@@ -49,6 +49,7 @@ export default function TamagotchiGame() {
   const [lastCare, setLastCare] = useState(null);
   const [balance, setBalance] = useState(0);
   const [hoursSinceCare, setHoursSinceCare] = useState(0);
+  const [showRotateMessage, setShowRotateMessage] = useState(false);
 
   const storageKey = publicKey ? `tamagotchi-${publicKey.toBase58()}` : null;
 
@@ -116,6 +117,21 @@ export default function TamagotchiGame() {
     })();
   }, [publicKey, status]);
 
+  // Orientation check (mobile only)
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile && window.innerWidth > window.innerHeight) {
+        setShowRotateMessage(true);
+      } else {
+        setShowRotateMessage(false);
+      }
+    };
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
   const burnAction = async (amount, newStatus, newMood, updateCare = true) => {
     if (!publicKey) return alert("Connect wallet first!");
     if (balance < amount) return alert("Not enough LOS balance!");
@@ -174,21 +190,27 @@ export default function TamagotchiGame() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#DADADA]">
+      {showRotateMessage && (
+        <div className="fixed top-0 left-0 w-full bg-red-700 text-white text-center p-2 z-50">
+          Please rotate your device to portrait mode
+        </div>
+      )}
+
       {/* Shell container */}
-      <div className="relative w-[300px] sm:w-[380px] md:w-[460px] lg:w-[520px]">
+      <div className="relative w-[360px] sm:w-[480px] md:w-[640px] mx-auto">
         {/* Tamagotchi shell image */}
         <img
           src="/tamagotchi_shell.png"
           alt="Tamagotchi shell"
-          className="w-full h-auto mx-auto pixelated"
+          className="w-full h-auto pixelated"
         />
 
         {/* LCD screen overlay */}
-        <div className="absolute top-[25%] left-[21%] w-[58%] h-[42%]
+        <div className="absolute top-[23%] left-[19%] w-[62%] h-[50%]
                         bg-black border-2 border-green-400
                         flex flex-col items-center justify-start
-                        text-green-400 font-mono p-2 text-xs sm:text-sm overflow-y-auto">
+                        text-green-400 font-mono p-2 text-xs sm:text-sm">
           <h2 className="text-sm mb-1">
             {name ? `Dino: ${name}` : "Unnamed Dino"}
           </h2>
