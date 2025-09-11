@@ -185,10 +185,10 @@ export default function TamagotchiGame() {
         />
 
         {/* LCD screen overlay */}
-        <div className="absolute top-[27%] left-[22%] w-[56%] h-[38%]
+        <div className="absolute top-[25%] left-[21%] w-[58%] h-[42%]
                         bg-black border-2 border-green-400
                         flex flex-col items-center justify-start
-                        text-green-400 font-mono p-2 text-xs sm:text-sm overflow-hidden">
+                        text-green-400 font-mono p-2 text-xs sm:text-sm overflow-y-auto">
           <h2 className="text-sm mb-1">
             {name ? `Dino: ${name}` : "Unnamed Dino"}
           </h2>
@@ -218,7 +218,7 @@ export default function TamagotchiGame() {
               Adopt (2 LOS)
             </button>
           ) : (
-            <div className="grid grid-cols-2 gap-1 text-xs">
+            <div className="grid grid-cols-2 gap-1 text-xs w-full">
               <button
                 className="bg-green-700 px-1 py-1 rounded"
                 onClick={() => burnAction(fees.feed, "eating", "happy")}
