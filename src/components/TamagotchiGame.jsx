@@ -49,7 +49,6 @@ export default function TamagotchiGame() {
   const [lastCare, setLastCare] = useState(null);
   const [balance, setBalance] = useState(0);
   const [hoursSinceCare, setHoursSinceCare] = useState(0);
-  const [showRotateMessage, setShowRotateMessage] = useState(false);
 
   const storageKey = publicKey ? `tamagotchi-${publicKey.toBase58()}` : null;
 
@@ -117,21 +116,6 @@ export default function TamagotchiGame() {
     })();
   }, [publicKey, status]);
 
-  // Orientation check (mobile only)
-  useEffect(() => {
-    const checkOrientation = () => {
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isMobile && window.innerWidth > window.innerHeight) {
-        setShowRotateMessage(true);
-      } else {
-        setShowRotateMessage(false);
-      }
-    };
-    checkOrientation();
-    window.addEventListener("resize", checkOrientation);
-    return () => window.removeEventListener("resize", checkOrientation);
-  }, []);
-
   const burnAction = async (amount, newStatus, newMood, updateCare = true) => {
     if (!publicKey) return alert("Connect wallet first!");
     if (balance < amount) return alert("Not enough LOS balance!");
@@ -190,15 +174,9 @@ export default function TamagotchiGame() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#DADADA]">
-      {showRotateMessage && (
-        <div className="fixed top-0 left-0 w-full bg-red-700 text-white text-center p-2 z-50">
-          Please rotate your device to portrait mode
-        </div>
-      )}
-
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#000000]">
       {/* Shell container */}
-      <div className="relative w-[400px] sm:w-[520px] md:w-[720px] mx-auto">
+      <div className="relative w-[420px] sm:w-[560px] md:w-[760px] mx-auto">
         {/* Tamagotchi shell image */}
         <img
           src="/tamagotchi_shell.png"
@@ -207,7 +185,7 @@ export default function TamagotchiGame() {
         />
 
         {/* LCD screen overlay */}
-        <div className="absolute top-[28%] left-[28%] w-[44%] h-[32%]
+        <div className="absolute top-[24%] left-[24%] w-[52%] h-[44%]
                         bg-black border-2 border-green-400
                         flex flex-col items-center justify-start
                         text-green-400 font-mono p-2 text-xs sm:text-sm">
