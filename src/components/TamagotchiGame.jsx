@@ -174,7 +174,7 @@ export default function TamagotchiGame() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#000000]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black">
       {/* Shell container */}
       <div className="relative w-[420px] sm:w-[560px] md:w-[760px] mx-auto">
         {/* Tamagotchi shell image */}
@@ -185,7 +185,7 @@ export default function TamagotchiGame() {
         />
 
         {/* LCD screen overlay */}
-        <div className="absolute top-[24%] left-[24%] w-[52%] h-[44%]
+        <div className="absolute top-[26%] left-[30%] w-[40%] h-[48%]
                         bg-black border-2 border-green-400
                         flex flex-col items-center justify-start
                         text-green-400 font-mono p-2 text-xs sm:text-sm">
