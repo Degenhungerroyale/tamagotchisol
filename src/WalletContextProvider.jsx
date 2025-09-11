@@ -6,28 +6,36 @@ import {
 
 import {
   PhantomWalletAdapter,
-  SolflareWalletAdapter,
+  SolflareWalletAdapter
 } from "@solana/wallet-adapter-wallets";
 
+// If you still want to use Backpack, import it properly:
 import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 
-// RPC endpoint – change if you want mainnet instead of devnet
-const endpoint = "https://api.devnet.solana.com";
+// Optional: import React-UI components if using UI for connect buttons
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import "@solana/wallet-adapter-react-ui/styles.css";
+
+// Optional: Solana web3 cluster url helper
+import { clusterApiUrl } from "@solana/web3.js";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
 export const WalletContextProvider = ({ children }) => {
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter(),
-      new BackpackWalletAdapter(),
-    ],
-    []
-  );
+  // Set network and endpoint
+  const network = WalletAdapterNetwork.Devnet;
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+
+  // Define your wallet adapters
+  const wallets = useMemo(() => [
+    new PhantomWalletAdapter(),
+    new SolflareWalletAdapter(),
+    new BackpackWalletAdapter()
+  ], []);
 
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
-        {children}
+        <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   );
