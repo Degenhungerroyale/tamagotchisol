@@ -185,8 +185,8 @@ export default function TamagotchiGame() {
         />
 
         {/* LCD screen overlay */}
-        <div className="absolute top-[24%] left-[31%] w-[38%] h-[44%]
-                        bg-black border-2 border-green-400
+        <div className="absolute top-[23%] left-[34%] w-[32%] h-[42%]
+                        bg-black
                         flex flex-col items-center justify-start
                         text-green-400 font-mono p-2 text-xs sm:text-sm">
           <h2 className="text-sm mb-1">
