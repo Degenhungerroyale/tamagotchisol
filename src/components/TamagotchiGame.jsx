@@ -125,7 +125,7 @@ export default function TamagotchiGame() {
       ata,
       CONTRACT_ADDRESS,
       publicKey,
-      Math.floor(amount * 1e6),
+      Math.floor(amount * 1e9),
       [],
       TOKEN_PROGRAM_ID
     );
