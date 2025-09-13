@@ -102,19 +102,26 @@ export default function TamagotchiGame() {
     return () => clearInterval(interval);
   }, [lastCare]);
 
-  // Fetch balance
-  useEffect(() => {
-    if (!publicKey) return;
-    (async () => {
-      try {
-        const ata = await getAssociatedTokenAddress(CONTRACT_ADDRESS, publicKey);
-        const info = await connection.getTokenAccountBalance(ata);
-        setBalance(info.value.uiAmount || 0);
-      } catch {
-        setBalance(0);
-      }
-    })();
-  }, [publicKey, status]);
+// Fetch balance (safer)
+useEffect(() => {
+  if (!publicKey) return;
+  (async () => {
+    try {
+      // CONTRACT_ADDRESS must be the LOS mint address
+      const ata = await getAssociatedTokenAddress(CONTRACT_ADDRESS, publicKey);
+
+      // Fetch balance
+      const info = await connection.getTokenAccountBalance(ata);
+      console.log("Fetched balance:", info.value);
+
+      setBalance(parseFloat(info.value.uiAmountString || "0"));
+    } catch (err) {
+      console.error("Error fetching LOS balance:", err);
+      setBalance(0);
+    }
+  })();
+}, [publicKey, status]);
+
 
   const burnAction = async (amount, newStatus, newMood, updateCare = true) => {
     if (!publicKey) return alert("Connect wallet first!");
