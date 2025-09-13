@@ -14,7 +14,7 @@ import {
 import Leaderboard from "./Leaderboard";
 
 const CONTRACT_ADDRESS = new PublicKey(
-  "6d2Wze1KMUxQ28sFLrH9DKfgBXpUJSJYZaRbufucvBLV"
+  "DiiTPZdpd9t3XorHiuZUu4E1FoSaQ7uGN4q9YkQupump"
 );
 const connection = new Connection("https://api.mainnet-beta.solana.com");
 
@@ -118,14 +118,14 @@ export default function TamagotchiGame() {
 
   const burnAction = async (amount, newStatus, newMood, updateCare = true) => {
     if (!publicKey) return alert("Connect wallet first!");
-    if (balance < amount) return alert("Not enough LOS balance!");
+    if (balance < amount) return alert("Not enough Elizabeth balance!");
 
     const ata = await getAssociatedTokenAddress(CONTRACT_ADDRESS, publicKey);
     const burnIx = createBurnInstruction(
       ata,
       CONTRACT_ADDRESS,
       publicKey,
-      Math.floor(amount * 1e9),
+      Math.floor(amount * 1e6),
       [],
       TOKEN_PROGRAM_ID
     );
@@ -143,7 +143,7 @@ export default function TamagotchiGame() {
   };
 
   const adoptPet = () => {
-    if (window.confirm(`Adopt your Dino for ${fees.adopt} LOS?`)) {
+    if (window.confirm(`Adopt your Dino for ${fees.adopt} Elizabeth?`)) {
       burnAction(fees.adopt, "happy", "happy");
       setAdopted(true);
       setHunger(100);
@@ -154,14 +154,14 @@ export default function TamagotchiGame() {
   const namePet = () => {
     const newName = prompt("Enter a name for your Dino:");
     if (!newName) return;
-    if (window.confirm(`Name your Dino for ${fees.name} LOS?`)) {
+    if (window.confirm(`Name your Dino for ${fees.name} Elizabeth?`)) {
       burnAction(fees.name, "named", mood, false);
       setName(newName);
     }
   };
 
   const revivePet = () => {
-    if (window.confirm(`Revive your Dino for ${fees.revive} LOS?`)) {
+    if (window.confirm(`Revive your Dino for ${fees.revive} Elizabeth?`)) {
       burnAction(fees.revive, "happy", "happy");
       setHunger(100);
       setLastCare(new Date().toISOString());
@@ -210,12 +210,12 @@ export default function TamagotchiGame() {
             )}
           </p>
 
-          <p className="mb-2">Balance: {balance} LOS</p>
+          <p className="mb-2">Balance: {balance} Elizabeth</p>
 
           {/* Buttons */}
           {!adopted ? (
             <button className="bg-green-700 px-2 py-1 rounded" onClick={adoptPet}>
-              Adopt (2 LOS)
+              Adopt (2 Elizabeth)
             </button>
           ) : (
             <div className="grid grid-cols-2 gap-1 text-xs w-full">
